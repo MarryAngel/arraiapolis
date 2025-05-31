@@ -12,7 +12,7 @@ class Jogo():
         self.tabuleiro = Tabuleiro(50, 40)                        # Inicializa o tabuleiro com a posição (50, 40)
         self.caixa_selecao = Caixa_Selecao(700, 40, 192, 192*3)   # Inicializa a caixa de seleção
         self.peca_selecionada = None
-        self.max_score = 40
+        self.max_score = 100
         self.score = 0                                            # Reseta o score
         self.vitoria = False
 

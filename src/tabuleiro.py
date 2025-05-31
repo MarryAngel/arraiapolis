@@ -82,3 +82,27 @@ class Tabuleiro:
             
             return True
         return False
+    
+    def remover_peca(self, linha, coluna):
+        """Remove a peça (e seus fantasmas) da posição especificada."""
+        peca = self.estado_tabuleiro[linha][coluna]
+        
+        if peca is None:
+            return False
+
+        # Se clicou num fantasma, encontrar a peça original
+        if hasattr(peca, "original"):
+            peca = peca.original
+
+        # Verifica se é uma peça do tipo Peca
+        if not hasattr(peca, "dic_fantasmas") or not hasattr(peca, "formato"):
+            return False
+
+        # Remover a peça e seus fantasmas do tabuleiro
+        for pos in peca.dic_fantasmas[peca.formato]:
+            pos_linha = peca.pos_linha + pos[0] - peca.ancora[0]
+            pos_coluna = peca.pos_coluna + pos[1] - peca.ancora[1]
+            if (0 <= pos_linha < self.linhas and 0 <= pos_coluna < self.colunas):
+                self.estado_tabuleiro[pos_linha][pos_coluna] = None
+
+        return True

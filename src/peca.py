@@ -2,7 +2,7 @@ import pygame
 
 class Peca():
     
-    todas_pecas = ["+", "0", "c", "i", "l", "lzao", "o", "s", "t"]
+    todas_pecas = ["+", "0", "c", "i", "l", "lzao", "o", "s", "t", "b"]
     dic_ancora = {
         "+":    [1, 1],
         "0":    [1, 1],
@@ -12,7 +12,8 @@ class Peca():
         "lzao": [1, 1],
         "o":    [0, 0],
         "s":    [1, 1],
-        "t":    [1, 1]
+        "t":    [1, 1],
+        "b":    [1, 1]
     }
     
     dic_fantasmas = {
@@ -24,7 +25,8 @@ class Peca():
         "lzao": [[0,0], [0,1], [2,1]],
         "o":    [[0,1], [1,0], [1,1]],
         "s":    [[0,0], [1,0], [2,1]],
-        "t":    [[0,0], [1,0], [2,0]]
+        "t":    [[0,0], [1,0], [2,0]],
+        "b":    [] 
     }
     
     dic_tipos2 = {
@@ -36,7 +38,8 @@ class Peca():
         "lzao": ["jogo", "comida", "cobra"],
         "o": ["quadrilha", "fogueira", "cobra"],
         "s": ["jogo", "banda", "cobra"],
-        "t": ["jogo", "comida", "correio", "cobra"]
+        "t": ["jogo", "comida", "correio", "cobra"],
+        "b": ["bomba"]
     }
     
     # dic_tipos com tudo cinza
@@ -49,18 +52,8 @@ class Peca():
         "lzao": ["cinza"],
         "o": ["cinza"],
         "s": ["cinza"],
-        "t": ["cinza"]
-    }
-    
-    dic_formato = {
-        "0": [],
-        "c": [],
-        "i": [],
-        "l": [],
-        "lzao": [],
-        "o": [],
-        "s": [],
-        "t": []
+        "t": ["cinza"],
+        "b": ["bomba"]
     }
     
     def __init__(self, formato, tipo):
