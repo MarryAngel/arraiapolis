@@ -6,6 +6,7 @@ class Peca():
         self.tipo = tipo
         self.formato = formato
         self.image = None
+        self.ancora = [0, 0]
         self.carregar_imagem()
         
     def carregar_imagem(self):

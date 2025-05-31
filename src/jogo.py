@@ -21,14 +21,13 @@ class Jogo():
     def render(self, screen):
         """Renderiza o jogo na tela."""
         
-        # Montar barra de progresso no topo da tela
+        # Fundo da tela
         screen.fill((255, 255, 255))
         
         # desenhar um retângulo no topo da tela
         pygame.draw.rect(screen, (0, 0, 100), (100, 10, 800, 15))
         
-        # localização do tabuleiro
-        #pygame.draw.rect(screen, (0, 100, 0), (50, 40, 640, 640))
+        # desenhar o tabuleiro
         self.tabuleiro.desenhar(screen)
         
         # localização da caixa de seleção
@@ -50,13 +49,13 @@ class Jogo():
             print("Jogo fechado.")
             exit(0)
             
-        # ao pressionar a tecla L
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_l:
-                print("Tecla L pressionada.")
-                # Aqui você pode adicionar a lógica para lidar com a tecla L
-                # Por exemplo, carregar um nível ou reiniciar o jogo
-                self.tabuleiro.estado_tabuleiro[0][0] = Peca("l", "cinza")
+        # # ao pressionar a tecla L
+        # if event.type == pygame.KEYDOWN:
+        #     if event.key == pygame.K_l:
+        #         print("Tecla L pressionada.")
+        #         # Aqui você pode adicionar a lógica para lidar com a tecla L
+        #         # Por exemplo, carregar um nível ou reiniciar o jogo
+        #         self.tabuleiro.estado_tabuleiro[0][0] = Peca("l", "cinza")
             
         # capturar o clique esquerdo do mouse 
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -70,7 +69,6 @@ class Jogo():
                 if self.peca_selecionada:
                     # colocar a peça no tabuleiro
                     coord_tabuleiro= self.tabuleiro.get_coord_tabuleiro(pos_x, pos_y)
-                    # colocar a peça no tabuleiro
                     if coord_tabuleiro:
                         linha, coluna = coord_tabuleiro
                         if self.tabuleiro.colocar_peca(linha, coluna, self.peca_selecionada):
