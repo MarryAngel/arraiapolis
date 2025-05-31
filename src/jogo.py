@@ -7,7 +7,7 @@ class Jogo():
 
     def __init__(self):
         self.tabuleiro = Tabuleiro(50, 40)                      # Inicializa o tabuleiro com a posição (50, 40)
-        self.caixa_selecao = Caixa_Selecao(700, 40, 192, 192)   # Inicializa a caixa de seleção
+        self.caixa_selecao = Caixa_Selecao(700, 40, 192, 192*3)   # Inicializa a caixa de seleção
         self.peca_selecionada = None
     
         pass
@@ -31,7 +31,7 @@ class Jogo():
         self.tabuleiro.desenhar(screen)
         
         # localização da caixa de seleção
-        self.caixa_selecao = Caixa_Selecao(700, 40, 192, 192*3)
+        # self.caixa_selecao = Caixa_Selecao(700, 40, 192, 192*3)
         self.caixa_selecao.desenhar(screen)
         
         # desenhar a peça selecionada

@@ -15,6 +15,19 @@ class Peca():
         "t":    [1, 1]
     }
     
+    dic_fantasmas = {
+        "+":    [[0,1], [1,0], [1,2], [2,1]],
+        "0":    [[0,0], [0,1], [0,2], [1,0], [1,2], [2,0], [2,1], [2,2]],
+        "c":    [[0,0], [0,1], [2,0], [2,1]],   
+        "i":    [[0,0], [2,0]],
+        "l":    [[0,1], [1,0]],
+        "lzao": [[0,0], [0,1], [2,1]],
+        "o":    [[0,1], [1,0], [1,1]],
+        "s":    [[0,0], [1,0], [2,1]],
+        "t":    [[0,0], [1,0], [2,0]]
+    }
+    
+    
     def __init__(self, formato, tipo):
         self.tipo = tipo
         self.formato = formato
@@ -39,3 +52,13 @@ class Peca():
         """Desenha a peça na tela."""
         if self.image:
             screen.blit(self.image, (pos_x, pos_y))
+            
+class Peca_Fantasma():
+    def __init__ (self, peca):
+        self.peca_pai = peca
+        
+    def desenhar(self, screen, pos_x, pos_y):
+        pass
+    
+    def tick(self):
+        pass

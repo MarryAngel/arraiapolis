@@ -1,4 +1,5 @@
 import pygame
+from peca import Peca_Fantasma
 
 class Tabuleiro:
     def __init__(self, pos_x, pos_y):
@@ -57,7 +58,27 @@ class Tabuleiro:
             # Verifica se já tem a peça nessa posição
             if self.estado_tabuleiro[linha][coluna] is not None:
                 return False
+
+            # Verifica se as peças fantasma da peça dic_fantasmas se encaixam na posição
+            for pos in peca.dic_fantasmas[peca.formato]:
+                pos_linha = linha + pos[0] - peca.ancora[0]
+                pos_coluna = coluna + pos[1] - peca.ancora[1]
+                print(f"Verificando posição fantasma ({pos_linha}, {pos_coluna})")
+                if (pos_linha < 0 or pos_linha >= self.linhas or
+                    pos_coluna < 0 or pos_coluna >= self.colunas or
+                    self.estado_tabuleiro[pos_linha][pos_coluna] is not None):
+                    return False
+            
+            
             print(f"Colocando peça {peca.tipo} {peca.formato} na posição ({linha}, {coluna})")
             self.estado_tabuleiro[linha][coluna] = peca
+            
+            # Coloca as peças fantasma no tabuleiro
+            for pos in peca.dic_fantasmas[peca.formato]:
+                pos_linha = linha + pos[0] - peca.ancora[0]
+                pos_coluna = coluna + pos[1] - peca.ancora[1]
+                self.estado_tabuleiro[pos_linha][pos_coluna] = Peca_Fantasma(peca)
+            
+            
             return True
         return False
