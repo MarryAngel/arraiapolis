@@ -36,9 +36,10 @@ class Jogo():
         
         # desenhar a peça selecionada
         if self.peca_selecionada:
-            pos_x = pygame.mouse.get_pos()[0] - 96  # Centraliza a peça no mouse
-            pos_y = pygame.mouse.get_pos()[1] - 96
-            self.peca_selecionada.desenhar(screen, pos_x, pos_y)
+            
+            pos_x = pygame.mouse.get_pos()[0] # Centraliza a peça no mouse
+            pos_y = pygame.mouse.get_pos()[1] # Centraliza a peça no mouse
+            self.peca_selecionada.desenhar(screen, pos_x-32, pos_y-32)
         
         pass
 
@@ -62,12 +63,12 @@ class Jogo():
             if event.button == 1:
                 pos_x, pos_y = event.pos
                 input_peca = self.caixa_selecao.input(pos_x, pos_y)
+                
                 if input_peca:
-                    print(f"Peca selecionada: {input_peca.tipo} {input_peca.formato}")
                     self.peca_selecionada = input_peca
                     # self.caixa_selecao.reset()
+               
                 if self.peca_selecionada:
-                    # colocar a peça no tabuleiro
                     coord_tabuleiro= self.tabuleiro.get_coord_tabuleiro(pos_x, pos_y)
                     if coord_tabuleiro:
                         linha, coluna = coord_tabuleiro

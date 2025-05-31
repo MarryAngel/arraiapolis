@@ -52,7 +52,12 @@ class Tabuleiro:
     def colocar_peca(self, linha, coluna, peca):
         """Coloca uma peça no tabuleiro na posição especificada."""
         
+        # Verifica se a posição está dentro dos limites do tabuleiro
         if 0 <= linha < self.linhas and 0 <= coluna < self.colunas:
+            # Verifica se já tem a peça nessa posição
+            if self.estado_tabuleiro[linha][coluna] is not None:
+                return False
+            print(f"Colocando peça {peca.tipo} {peca.formato} na posição ({linha}, {coluna})")
             self.estado_tabuleiro[linha][coluna] = peca
             return True
         return False

@@ -20,7 +20,7 @@ class Caixa_Selecao:
         
     def reset(self):
         """Selecionar três peças aleatórias."""
-        self.pecas_disponiveis = [Peca("l", "cinza"), Peca("t", "cinza"), Peca("+", "cinza")]
+        self.pecas_disponiveis = [Peca("l", "cinza"), Peca("i", "cinza"), Peca("+", "cinza")]
         
     def input(self, mouse_x, mouse_y):
         """Detecta se o mouse clicou em uma das peças disponíveis."""
@@ -46,5 +46,5 @@ class Caixa_Selecao:
             pos_x = self.pos_x + self.margem
             pos_y = self.pos_y + self.margem *i*2 + i * (self.tamanho_peca) + (self.margem)
              
-            peca.desenhar(screen, pos_x, pos_y)
+            peca.desenhar_bruto(screen, pos_x, pos_y)
     
