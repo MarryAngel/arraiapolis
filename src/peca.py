@@ -27,6 +27,42 @@ class Peca():
         "t":    [[0,0], [1,0], [2,0]]
     }
     
+    dic_tipos2 = {
+        "+": ["fogueira", "igreja", "banda", "cobra"],
+        "0": ["quadrilha", "fogueira", "cobra"],
+        "c": ["jogo", "comida", "banda", "cobra"],
+        "i": ["comida", "sebo", "cobra"],
+        "l": ["jogo", "comida", "cobra", "correio"],
+        "lzao": ["jogo", "comida", "cobra"],
+        "o": ["quadrilha", "fogueira", "cobra"],
+        "s": ["jogo", "banda", "cobra"],
+        "t": ["jogo", "comida", "correio", "cobra"]
+    }
+    
+    # dic_tipos com tudo cinza
+    dic_tipos = {
+        "+": ["cinza"],
+        "0": ["quadrilha", "fogueira", "cobra"],
+        "c": ["cinza"],
+        "i": ["cinza"],
+        "l": ["cinza"],
+        "lzao": ["cinza"],
+        "o": ["cinza"],
+        "s": ["cinza"],
+        "t": ["cinza"]
+    }
+    
+    
+    dic_formato = {
+        "0": [],
+        "c": [],
+        "i": [],
+        "l": [],
+        "lzao": [],
+        "o": [],
+        "s": [],
+        "t": []
+    }
     
     def __init__(self, formato, tipo):
         self.tipo = tipo
