@@ -9,18 +9,17 @@ class Jogo():
         self.tabuleiro = Tabuleiro(50, 40)                      # Inicializa o tabuleiro com a posição (50, 40)
         self.caixa_selecao = Caixa_Selecao(700, 40, 192, 192)   # Inicializa a caixa de seleção
         self.peca_selecionada = None
-        
+    
         pass
 
     def tick(self):
         """Atualiza o estado do jogo."""
-        
+        #if self.peca_selecionada != None:
+            
         pass
 
     def render(self, screen):
         """Renderiza o jogo na tela."""
-        
-        margem = 10
         
         # Montar barra de progresso no topo da tela
         screen.fill((255, 255, 255))
@@ -33,12 +32,14 @@ class Jogo():
         self.tabuleiro.desenhar(screen)
         
         # localização da caixa de seleção
-        #pygame.draw.rect(screen, (100, 0, 0), (700, 40, 192+2*margem, 2*margem+192))
-        caixa_selecao = Caixa_Selecao(700, 40, 192*0.75, 192*0.75*3)
-        caixa_selecao.desenhar(screen)
+        self.caixa_selecao = Caixa_Selecao(700, 40, 192, 192*3)
+        self.caixa_selecao.desenhar(screen)
         
-        # locação da peça escolhida
-        #pygame.draw.rect(screen, (0, 0, 100), (700, 40 + 64*3*2+20, 192+2*margem, 2*margem+192))
+        # desenhar a peça selecionada
+        if self.peca_selecionada:
+            pos_x = pygame.mouse.get_pos()[0] - 96  # Centraliza a peça no mouse
+            pos_y = pygame.mouse.get_pos()[1] - 96
+            self.peca_selecionada.desenhar(screen, pos_x, pos_y)
         
         pass
 
@@ -61,7 +62,20 @@ class Jogo():
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 pos_x, pos_y = event.pos
-                print(f"Clique detectado na posição: ({pos_x}, {pos_y})")
-        
-
+                input_peca = self.caixa_selecao.input(pos_x, pos_y)
+                if input_peca:
+                    print(f"Peca selecionada: {input_peca.tipo} {input_peca.formato}")
+                    self.peca_selecionada = input_peca
+                    # self.caixa_selecao.reset()
+                if self.peca_selecionada:
+                    # colocar a peça no tabuleiro
+                    coord_tabuleiro= self.tabuleiro.get_coord_tabuleiro(pos_x, pos_y)
+                    # colocar a peça no tabuleiro
+                    if coord_tabuleiro:
+                        linha, coluna = coord_tabuleiro
+                        if self.tabuleiro.colocar_peca(linha, coluna, self.peca_selecionada):
+                            print(f"Peca {self.peca_selecionada.tipo} {self.peca_selecionada.formato} colocada na posição ({linha}, {coluna})")
+                            self.peca_selecionada = None
+                            self.caixa_selecao.reset()
+                                
         pass

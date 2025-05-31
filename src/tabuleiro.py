@@ -30,9 +30,7 @@ class Tabuleiro:
 
                 # Desenha a borda da célula
                 pygame.draw.rect(screen, self.cor_borda, rect_celula, 1)  # O '1' define a espessura da borda
-                
-        # desenhar a peca
-        
+                        
         for linha in range(self.linhas):
             for coluna in range(self.colunas):
                 peca = self.estado_tabuleiro[linha][coluna]
@@ -40,4 +38,21 @@ class Tabuleiro:
                     # Desenhar a peça na célula
                     peca.desenhar(screen, self.offset_x + (coluna * self.tamanho_celula), self.offset_y + (linha * self.tamanho_celula)) 
         
+    def get_coord_tabuleiro(self, pos_x, pos_y):
+        """Converte as coordenadas da tela para as coordenadas do tabuleiro."""
+        if (pos_x < self.offset_x or pos_x > self.offset_x + self.colunas * self.tamanho_celula or
+            pos_y < self.offset_y or pos_y > self.offset_y + self.linhas * self.tamanho_celula):
+            return None
+        
+        coluna = (pos_x - self.offset_x) // self.tamanho_celula
+        linha = (pos_y - self.offset_y) // self.tamanho_celula
+        
+        return (linha, coluna)
     
+    def colocar_peca(self, linha, coluna, peca):
+        """Coloca uma peça no tabuleiro na posição especificada."""
+        
+        if 0 <= linha < self.linhas and 0 <= coluna < self.colunas:
+            self.estado_tabuleiro[linha][coluna] = peca
+            return True
+        return False

@@ -8,7 +8,6 @@ class Peca():
         self.image = None
         self.carregar_imagem()
         
-        
     def carregar_imagem(self):
         """Carrega a imagem da peça com base no tipo."""
         try:

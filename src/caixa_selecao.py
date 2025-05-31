@@ -1,4 +1,5 @@
 import pygame
+from peca import Peca
 
 class Caixa_Selecao:
     
@@ -9,10 +10,41 @@ class Caixa_Selecao:
         self.altura = altura
         self.margem = 10
         
+        self.tamanho_peca = largura  # Tamanho da peça (assumindo que todas as peças têm o mesmo tamanho)
+        
         # Cores
         self.cor_fundo = (100, 0, 0)
         self.cor_borda = (0, 0, 100)
         
+        self.reset()
+        
+    def reset(self):
+        """Selecionar três peças aleatórias."""
+        self.pecas_disponiveis = [Peca("l", "cinza"), Peca("t", "cinza"), Peca("+", "cinza")]
+        
+    def input(self, mouse_x, mouse_y):
+        """Detecta se o mouse clicou em uma das peças disponíveis."""
+        
+        # Verifica se o clique está dentro em umas das pecas disponíveis
+        for i, peca in enumerate(self.pecas_disponiveis):
+            pos_x = self.pos_x + self.margem
+            pos_y = self.pos_y + self.margem * i * 2 + i * (self.tamanho_peca) + (self.margem)
+            
+            if (mouse_x >= pos_x and mouse_x <= pos_x + self.tamanho_peca and
+                mouse_y >= pos_y and mouse_y <= pos_y + self.tamanho_peca):
+                self.pecas_disponiveis[i] = None
+                return peca
+
+        return None
+
     def desenhar(self, screen):
-        pygame.draw.rect(screen, self.cor_fundo, (self.pos_x, self.pos_y, self.largura + 2 * self.margem, self.altura + 4 * self.margem))
-        pygame.draw.rect(screen, self.cor_borda, (self.pos_x, self.pos_y, self.largura + 2 * self.margem, self.altura + 4 * self.margem), 1)
+        pygame.draw.rect(screen, self.cor_fundo, (self.pos_x, self.pos_y, self.largura + 2 * self.margem, self.altura + 2 * self.margem + self.margem*4))
+        pygame.draw.rect(screen, self.cor_borda, (self.pos_x, self.pos_y, self.largura + 2 * self.margem, self.altura + 2 * self.margem + self.margem*4), 1)
+        
+        # Desenhar as peças disponíveis
+        for i, peca in enumerate(self.pecas_disponiveis):
+            pos_x = self.pos_x + self.margem
+            pos_y = self.pos_y + self.margem *i*2 + i * (self.tamanho_peca) + (self.margem)
+             
+            peca.desenhar(screen, pos_x, pos_y)
+    
