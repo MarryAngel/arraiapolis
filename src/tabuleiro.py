@@ -12,7 +12,7 @@ class Tabuleiro:
         self.cor_celula = (192, 192, 192)  # Um tom de cinza (Silver)
         self.cor_borda = (128, 128, 128)   # Um cinza mais escuro para as bordas
         
-        self.estado_tabuleiro = [[0 for _ in range(self.colunas)] for _ in range(self.linhas)]
+        self.estado_tabuleiro = [[None for _ in range(self.colunas)] for _ in range(self.linhas)]
         
     def desenhar(self, screen):
         """Desenha a grade do tabuleiro na tela."""
@@ -30,3 +30,14 @@ class Tabuleiro:
 
                 # Desenha a borda da célula
                 pygame.draw.rect(screen, self.cor_borda, rect_celula, 1)  # O '1' define a espessura da borda
+                
+        # desenhar a peca
+        
+        for linha in range(self.linhas):
+            for coluna in range(self.colunas):
+                peca = self.estado_tabuleiro[linha][coluna]
+                if peca != None:
+                    # Desenhar a peça na célula
+                    peca.desenhar(screen, self.offset_x + (coluna * self.tamanho_celula), self.offset_y + (linha * self.tamanho_celula)) 
+        
+    
