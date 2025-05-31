@@ -1,5 +1,6 @@
 import pygame
 from peca import Peca
+import random
 
 class Caixa_Selecao:
     
@@ -20,7 +21,10 @@ class Caixa_Selecao:
         
     def reset(self):
         """Selecionar três peças aleatórias."""
-        self.pecas_disponiveis = [Peca("l", "cinza"), Peca("t", "cinza"), Peca("+", "cinza")]
+        
+        #Selecionar três peças aleatórias do conjunto de peças disponíveis
+        self.pecas_disponiveis = random.sample(Peca.todas_pecas, 3)
+        self.pecas_disponiveis = [Peca(peca, random.choice(Peca.dic_tipos[peca])) for peca in self.pecas_disponiveis]
         
     def input(self, mouse_x, mouse_y):
         """Detecta se o mouse clicou em uma das peças disponíveis."""
@@ -45,6 +49,7 @@ class Caixa_Selecao:
         for i, peca in enumerate(self.pecas_disponiveis):
             pos_x = self.pos_x + self.margem
             pos_y = self.pos_y + self.margem *i*2 + i * (self.tamanho_peca) + (self.margem)
-             
-            peca.desenhar(screen, pos_x, pos_y)
+            
+            if peca is not None:
+                peca.desenhar_bruto(screen, pos_x, pos_y)
     
