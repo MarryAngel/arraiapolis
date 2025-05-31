@@ -52,7 +52,6 @@ class Peca():
         "t": ["cinza"]
     }
     
-    
     dic_formato = {
         "0": [],
         "c": [],
@@ -69,6 +68,7 @@ class Peca():
         self.formato = formato
         self.image = None
         self.ancora = self.dic_ancora[self.formato]
+        self.pontos = len(self.dic_fantasmas[self.formato])+1
         self.carregar_imagem()
         
     def carregar_imagem(self):

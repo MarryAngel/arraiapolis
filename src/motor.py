@@ -52,15 +52,9 @@ class Coracao():
                 unprocessedTime -= self.UPDATE_CAP  # Tempo comido
                 render = True
 
-                try:
-                    debug_time = time.time()
-                    self.tick()
-                    tempo["ticks"] += (time.time() - debug_time)
-                except Exception as e:
-                    print(e)
-                    self.running = False
-                    self.dispose()
-                    return
+                debug_time = time.time()
+                self.tick()
+                tempo["ticks"] += (time.time() - debug_time)
 
                 if frameTime >= 1.0:
                         frameTime = 0
