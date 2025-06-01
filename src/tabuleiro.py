@@ -116,6 +116,8 @@ class Tabuleiro:
                 pos_linha = linha + pos[0] - peca.ancora[0]
                 pos_coluna = coluna + pos[1] - peca.ancora[1]
                 if peca.tipo == "bomba":
+                    if not (0 <= pos_linha < self.linhas and 0 <= pos_coluna < self.colunas):
+                        continue
                     alvo = self.estado_tabuleiro[pos_linha][pos_coluna]
                     if alvo is None:
                         continue

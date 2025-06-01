@@ -24,8 +24,8 @@ class Caixa_Selecao:
         
         #Selecionar três peças aleatórias do conjunto de peças disponíveis
         self.pecas_disponiveis = random.sample(Peca.todas_pecas, 3)
-        self.pecas_disponiveis = ["lzao", "i", "i"]
-        self.pecas_disponiveis = [Peca(peca, random.choice(Peca.dic_tipos[peca])) for peca in self.pecas_disponiveis]
+        # self.pecas_disponiveis = ["lzao", "i", "i"]
+        self.pecas_disponiveis = [Peca(peca, "cinza") for peca in self.pecas_disponiveis]
         
     def input(self, mouse_x, mouse_y):
         """Detecta se o mouse clicou em uma das peças disponíveis."""
