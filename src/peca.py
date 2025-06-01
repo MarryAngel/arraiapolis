@@ -46,15 +46,31 @@ class Peca():
     dic_tipos = {
         "+": ["cinza"],
         "0": ["quadrilha", "fogueira", "cobra"],
-        "c": ["cinza"],
-        "i": ["cinza"],
+        "c": ["banda", "cobra", "comida","jogo"],
+        "i": ["comida"],
         "l": ["cinza"],
-        "lzao": ["cinza"],
+        "lzao": ["jogo"],
         "o": ["cinza"],
         "s": ["cinza"],
         "t": ["cinza"],
         "b": ["bomba"]
     }
+
+    dic_bem_com = {
+
+        "quadrilha": ["fogueira"],
+        "fogueira": ["fogueira"],
+        "jogo": ["comida"],
+        "comida": ["jogo"],
+        "igreja": ["quadrilha"],
+        "banda": ["quadrilha"],
+        "correio": ["igreja"],
+        "sebo": ["jogo"],
+        "cinza": []
+    }
+
+
+
 
     def negar(self, x):
         """Inverte as coordenadas de um fantasma."""
@@ -80,14 +96,25 @@ class Peca():
 
     def __init__(self, formato, tipo):
         self.tipo = tipo
+        self.formato = formato
+        if formato == "b":
+            self.tipo = "bomba"
         self.dic_fantasmas = self.dic_fantasmas_padrao.copy()
         self.dic_ancora = self.dic_ancora_padrao.copy()
-        self.formato = formato
         self.image = None
         self.ancora = self.dic_ancora[self.formato]
         self.pontos = len(self.dic_fantasmas[self.formato])+1
         self.pos = None
         self.peca_pai = self
+        self.carregar_imagem()
+
+    def definir_tipo(self, tipo):
+        """Define o tipo da peça e carrega a imagem correspondente."""
+        if tipo not in self.dic_tipos[self.formato]:
+            raise ValueError(f"Tipo '{tipo}' não é válido para o formato '{self.formato}'.")
+        self.tipo = tipo
+        if self.tipo == "cobra":
+            self.pontos = abs(self.pontos) * -1
         self.carregar_imagem()
 
     def set_posicao(self, pos):
@@ -103,7 +130,7 @@ class Peca():
     def carregar_imagem(self):
         """Carrega a imagem da peça com base no tipo."""
         try:
-            self.image = pygame.image.load(f"../images/{self.formato}/{self.tipo}.png")
+            self.image = pygame.image.load(f"images/{self.formato}/{self.tipo}.png")
         except pygame.error as e:
             print(f"Erro ao carregar a imagem da peça {self.formato}/{self.tipo}.png: {e}")
             self.image = None
