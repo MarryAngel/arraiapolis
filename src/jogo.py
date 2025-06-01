@@ -48,31 +48,6 @@ class Jogo():
         font = pygame.font.Font(None, 74)
         texto = font.render("Vitória!", True, (0, 255, 0))
         screen.blit(texto, (x + 100, y + 50))
-
-        # # Botão de reiniciar
-        # pygame.draw.rect(screen, (100, 0, 0), (x + 100, y + 120, 200, 50))
-        # pygame.draw.rect(screen, (0, 0, 100), (x + 100, y + 120, 200, 50), 2)
-        # font = pygame.font.Font(None, 36)
-        # texto_reiniciar = font.render("Reiniciar", True, (255, 255, 255))
-        # screen.blit(texto_reiniciar, (x + 150, y + 130))
-    
-        # # Atualizar a tela
-        # pygame.display.flip()
-        
-        # # Esperar até que o usuário clique no botão de reiniciar
-        # esperando_reiniciar = True
-        # while esperando_reiniciar:
-        #     for event in pygame.event.get():
-        #         if event.type == pygame.MOUSEBUTTONDOWN:
-        #             if event.button == 1:
-        #                 pos_x, pos_y = event.pos
-        #                 if x + 100 <= pos_x <= x + 300 and y + 120 <= pos_y <= y + 170:
-        #                     esperando_reiniciar = False
-        #                     self.reset_partida()
-        #                     return
-        #         elif event.type == pygame.QUIT:
-        #             pygame.quit()
-        #             quit()
     
     def barra_progresso(self, screen):
         # Configurações da barra de progresso
@@ -138,9 +113,15 @@ class Jogo():
         """Processa a entrada do usuário."""
         # fechar a tela do jogo
         if event.type == "QUIT":
-            print("Jogo fechado.")
             exit(0)
-            
+        
+        # Detectar letra 'r' pressionada para reiniciar
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_r:
+                if self.peca_selecionada:
+                    self.peca_selecionada.rotacionar()
+
+
         # capturar o clique esquerdo do mouse 
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
@@ -149,13 +130,12 @@ class Jogo():
                 
                 # Verifica se o botão de reiniciar foi clicado
                 if 10 <= pos_x <= 90 and 10 <= pos_y <= 30:
-                    print("Reiniciando o jogo...")
                     self.reset_partida()
                     return
                 
                 if self.peca_selecionada is None:
                     input_peca = self.caixa_selecao.input(pos_x, pos_y)
-                
+
                     if input_peca:
                         self.peca_selecionada = input_peca
                     
@@ -164,8 +144,5 @@ class Jogo():
                     if coord_tabuleiro:
                         linha, coluna = coord_tabuleiro
                         if self.tabuleiro.colocar_peca(linha, coluna, self.peca_selecionada):
-                            print(f"Peca {self.peca_selecionada.tipo} {self.peca_selecionada.formato} colocada na posição ({linha}, {coluna})")
                             self.peca_selecionada = None
                             self.caixa_selecao.reset()
-                                
-        pass

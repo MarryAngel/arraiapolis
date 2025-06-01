@@ -3,7 +3,7 @@ import pygame
 class Peca():
     
     todas_pecas = ["+", "0", "c", "i", "l", "lzao", "o", "s", "t", "b"]
-    dic_ancora = {
+    dic_ancora_padrao = {
         "+":    [1, 1],
         "0":    [1, 1],
         "c":    [1, 1],
@@ -16,7 +16,7 @@ class Peca():
         "b":    [1, 1]
     }
     
-    dic_fantasmas = {
+    dic_fantasmas_padrao = {
         "+":    [[0,1], [1,0], [1,2], [2,1]],
         "0":    [[0,0], [0,1], [0,2], [1,0], [1,2], [2,0], [2,1], [2,2]],
         "c":    [[0,0], [0,1], [2,0], [2,1]],   
@@ -26,7 +26,7 @@ class Peca():
         "o":    [[0,1], [1,0], [1,1]],
         "s":    [[0,0], [1,0], [2,1]],
         "t":    [[0,0], [1,0], [2,0]],
-        "b":    [] 
+        "b":    [[0,0], [0,1], [0,2], [1,0], [1,2], [2,0], [2,1], [2,2]] 
     }
     
     dic_tipos2 = {
@@ -55,19 +55,55 @@ class Peca():
         "t": ["cinza"],
         "b": ["bomba"]
     }
+
+    def negar(self, x):
+        """Inverte as coordenadas de um fantasma."""
+        if x == 0:
+            return 2
+        elif x == 1:
+            return 1
+        elif x == 2:
+            return 0
+        else:
+            raise ValueError("Coordenada inválida. Deve ser 0, 1 ou 2.")
+
+    def rotacionar(self):
+        self.dic_fantasmas[self.formato] = [[y, self.negar(x)] for x, y in self.dic_fantasmas[self.formato]]
+        self.ancora = [self.ancora[1], self.negar(self.ancora[0])]
+
+        self.image = pygame.transform.rotate(self.image, - 90)
     
+    def anti_rotacionar(self):
+        self.dic_fantasmas[self.formato] = [[self.negar(y), x] for x, y in self.dic_fantasmas[self.formato]]
+        self.ancora = [self.negar(self.ancora[1]), self.ancora[0]]
+        self.image = pygame.transform.rotate(self.image, +90)
+
     def __init__(self, formato, tipo):
         self.tipo = tipo
+        self.dic_fantasmas = self.dic_fantasmas_padrao.copy()
+        self.dic_ancora = self.dic_ancora_padrao.copy()
         self.formato = formato
         self.image = None
         self.ancora = self.dic_ancora[self.formato]
         self.pontos = len(self.dic_fantasmas[self.formato])+1
+        self.pos = None
+        self.peca_pai = self
         self.carregar_imagem()
+
+    def set_posicao(self, pos):
+        """Define a posição da peça."""
+        self.pos = pos
         
+    def add_fantasma(self, fantasma):
+        """Adiciona um fantasma à peça."""
+        if not hasattr(self, 'fantasmas'):
+            self.fantasmas = []
+        self.fantasmas.append(fantasma)
+
     def carregar_imagem(self):
         """Carrega a imagem da peça com base no tipo."""
         try:
-            self.image = pygame.image.load(f"../images/{self.formato}/{self.tipo}.png").convert_alpha()
+            self.image = pygame.image.load(f"../images/{self.formato}/{self.tipo}.png")
         except pygame.error as e:
             print(f"Erro ao carregar a imagem da peça {self.formato}/{self.tipo}.png: {e}")
             self.image = None
@@ -83,11 +119,17 @@ class Peca():
             screen.blit(self.image, (pos_x, pos_y))
             
 class Peca_Fantasma():
-    def __init__ (self, peca):
+    def __init__ (self, peca, pos):
         self.peca_pai = peca
+        peca.add_fantasma(self)
+        self.set_posicao(pos)
         
     def desenhar(self, screen, pos_x, pos_y):
         pass
     
     def tick(self):
         pass
+
+    def set_posicao(self, pos):
+        """Define a posição da peça."""
+        self.pos = pos
