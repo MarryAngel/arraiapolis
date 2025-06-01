@@ -56,28 +56,46 @@ class Tabuleiro:
         # Verifica se a posição está dentro dos limites do tabuleiro
         if 0 <= linha < self.linhas and 0 <= coluna < self.colunas:
             # Verifica se já tem a peça nessa posição
-            if self.estado_tabuleiro[linha][coluna] is not None:
+            if self.estado_tabuleiro[linha][coluna] is not None and peca.tipo != "bomba":
                 return False
 
             # Verifica se as peças fantasma da peça dic_fantasmas se encaixam na posição
             for pos in peca.dic_fantasmas[peca.formato]:
                 pos_linha = linha + pos[0] - peca.ancora[0]
                 pos_coluna = coluna + pos[1] - peca.ancora[1]
-                print(f"Verificando posição fantasma ({pos_linha}, {pos_coluna})")
                 if (pos_linha < 0 or pos_linha >= self.linhas or
                     pos_coluna < 0 or pos_coluna >= self.colunas or
                     self.estado_tabuleiro[pos_linha][pos_coluna] is not None):
-                    return False
+                    if peca.tipo != "bomba":
+                        return False
             
-            
-            print(f"Colocando peça {peca.tipo} {peca.formato} na posição ({linha}, {coluna})")
-            self.estado_tabuleiro[linha][coluna] = peca
+            if peca.tipo == "bomba":
+                if self.estado_tabuleiro[linha][coluna] is not None:
+                    alvo = self.estado_tabuleiro[linha][coluna].peca_pai
+                    for fantasma in alvo.fantasmas:
+                        self.estado_tabuleiro[fantasma.pos[0]][fantasma.pos[1]] = None
+                    self.estado_tabuleiro[alvo.pos[0]][alvo.pos[1]] = None
+
+                    self.estado_tabuleiro[linha][coluna] = None
+            else:
+                # Coloca a peça original no tabuleiro
+                self.estado_tabuleiro[linha][coluna] = peca
+                peca.set_posicao((linha, coluna))
             
             # Coloca as peças fantasma no tabuleiro
             for pos in peca.dic_fantasmas[peca.formato]:
                 pos_linha = linha + pos[0] - peca.ancora[0]
                 pos_coluna = coluna + pos[1] - peca.ancora[1]
-                self.estado_tabuleiro[pos_linha][pos_coluna] = Peca_Fantasma(peca)
+                if peca.tipo == "bomba":
+                    alvo = self.estado_tabuleiro[pos_linha][pos_coluna]
+                    if alvo is None:
+                        continue
+                    alvo_pai = alvo.peca_pai
+                    for fantasma in alvo_pai.fantasmas:
+                        self.estado_tabuleiro[fantasma.pos[0]][fantasma.pos[1]] = None
+                    self.estado_tabuleiro[alvo_pai.pos[0]][alvo_pai.pos[1]] = None
+                else:
+                    self.estado_tabuleiro[pos_linha][pos_coluna] = Peca_Fantasma(peca, (pos_linha, pos_coluna))
             
             
             return True
