@@ -29,32 +29,19 @@ class Peca():
         "b":    [[0,0], [0,1], [0,2], [1,0], [1,2], [2,0], [2,1], [2,2]] 
     }
     
-    dic_tipos2 = {
+    dic_tipos = {
         "+": ["fogueira", "igreja", "banda"],
         "0": ["quadrilha", "fogueira", "cobra"],
         "c": ["jogo", "comida", "banda", "cobra"],
         "i": ["comida", "sebo", "cobra"],
         "l": ["jogo", "comida", "correio"],
         "lzao": ["jogo", "comida", "cobra"],
-        "o": ["quadrilha", "fogueira", "cobra"],
+        "o": ["quadrilha", "fogueira"],
         "s": ["jogo", "banda", "cobra"],
         "t": ["jogo", "comida", "correio", "cobra"],
         "b": ["bomba"]
     }
     
-    # dic_tipos com tudo cinza
-    dic_tipos = {
-        "+": ["igreja", "banda"],
-        "0": ["quadrilha", "fogueira", "cobra"],
-        "c": ["banda", "cobra", "comida","jogo"],
-        "i": ["comida"],
-        "l": ["jogo", "comida", "correio"],
-        "lzao": ["jogo", "comida"],
-        "o": ["quadrilha", "fogueira"],
-        "s": ["jogo", "banda", "cobra"],
-        "t": ["jogo", "correio"],
-        "b": ["bomba"]
-    }
 
     dic_bem_com = {
 
