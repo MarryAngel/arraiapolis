@@ -1,6 +1,6 @@
 import pygame
 from src.tabuleiro import Tabuleiro
-from src.peca import Peca
+from src.peca import Peca, Peca_Fantasma
 from src.caixa_selecao import Caixa_Selecao
 import threading
 
@@ -17,7 +17,7 @@ class Jogo():
             def tocar_musica():
                 pygame.mixer.init()
                 pygame.mixer.music.load("audio/musica.mp3")
-                pygame.mixer.music.set_volume(0.3)  # Define o volume para 50%
+                pygame.mixer.music.set_volume(0.05)  # Define o volume para 50%
                 pygame.mixer.music.play(-1)  # Loop infinito
             self.musica_thread = threading.Thread(target=tocar_musica, daemon=True)
             self.musica_thread.start()
@@ -40,8 +40,22 @@ class Jogo():
         pontos = 0
         for linha in self.tabuleiro.estado_tabuleiro:
             for peca in linha:
+                if peca is None or isinstance(peca, Peca_Fantasma):
+                    continue
                 if isinstance(peca, Peca):
                     pontos += peca.pontos
+
+                if peca.tipo == "cobra":
+                    continue
+                vizinhos_pai = self.tabuleiro.encontrar_vizinhos_pai_unicos(peca)
+                
+
+                for vizinho in vizinhos_pai:
+                    if vizinho.tipo == "cobra":
+                        pontos -=1
+                    elif vizinho.tipo in peca.dic_bem_com[peca.tipo]:
+                        pontos += 1
+
         return pontos
 
     def tick(self):
@@ -165,5 +179,9 @@ class Jogo():
                     if coord_tabuleiro:
                         linha, coluna = coord_tabuleiro
                         if self.tabuleiro.colocar_peca(linha, coluna, self.peca_selecionada):
+                            if self.peca_selecionada.tipo != "bomba":
+                                self.tocar("peca", "colocar")
+                            else:
+                                self.tocar("peca", "estalinho")
                             self.peca_selecionada = None
                             self.caixa_selecao.reset()

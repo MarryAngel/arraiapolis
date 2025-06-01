@@ -46,15 +46,30 @@ class Peca():
     dic_tipos = {
         "+": ["cinza"],
         "0": ["quadrilha", "fogueira", "cobra"],
-        "c": ["cinza"],
-        "i": ["cinza"],
+        "c": ["banda", "cobra", "comida","jogo"],
+        "i": ["comida"],
         "l": ["cinza"],
-        "lzao": ["cinza"],
+        "lzao": ["jogo"],
         "o": ["cinza"],
         "s": ["cinza"],
         "t": ["cinza"],
         "b": ["bomba"]
     }
+
+    dic_bem_com = {
+
+        "quadrilha": ["fogueira"],
+        "fogueira": ["fogueira"],
+        "jogo": ["comida"],
+        "comida": ["jogo"],
+        "igreja": ["quadrilha"],
+        "banda": ["quadrilha"],
+        "correio": ["igreja"],
+        "sebo": ["jogo"],
+    }
+
+
+
 
     def negar(self, x):
         """Inverte as coordenadas de um fantasma."""
@@ -86,6 +101,8 @@ class Peca():
         self.image = None
         self.ancora = self.dic_ancora[self.formato]
         self.pontos = len(self.dic_fantasmas[self.formato])+1
+        if self.tipo == "cobra":
+            self.pontos *= -1
         self.pos = None
         self.peca_pai = self
         self.carregar_imagem()

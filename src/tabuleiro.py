@@ -15,6 +15,35 @@ class Tabuleiro:
         
         self.estado_tabuleiro = [[None for _ in range(self.colunas)] for _ in range(self.linhas)]
         
+    def encontrar_vizinhos_pai_unicos(self, peca):
+        """Encontra vizinhos únicos da peça, considerando apenas as peças originais (pais)."""
+        vizinhos = set()
+        
+        todas_pos = peca.dic_fantasmas[peca.formato].copy()  # Copia as posições dos fantasmas
+        todas_pos.append(peca.ancora)  # Adiciona a âncora para verificar a posição original da peça
+
+        for pos in todas_pos:
+            pos_linha = peca.pos[0] + pos[0] - peca.ancora[0]
+            pos_coluna = peca.pos[1] + pos[1] - peca.ancora[1]
+
+            for i in range(-1, 2):  # Verifica as posições adjacentes
+                for j in range(-1, 2):
+                    if abs(i+j) != 1:  # Verifica apenas vizinhanca 4
+                        continue
+                    pos_linha_adj = pos_linha + i
+                    pos_coluna_adj = pos_coluna + j
+                    # print("ver", pos_linha_adj, pos_coluna_adj, end=" ")
+                    if (0 <= pos_linha_adj < self.linhas and 0 <= pos_coluna_adj < self.colunas):
+                        vizinho = self.estado_tabuleiro[pos_linha_adj][pos_coluna_adj]
+                        if vizinho is not None:
+                            vizinhos.add(vizinho.peca_pai)
+        
+        # # Remove a própria peça para evitar que ela seja considerada como vizinha
+        if peca in vizinhos:
+            vizinhos.remove(peca)
+
+        return list(vizinhos)
+
     def desenhar(self, screen):
         """Desenha a grade do tabuleiro na tela."""
         
