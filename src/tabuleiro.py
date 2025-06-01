@@ -1,5 +1,5 @@
 import pygame
-from peca import Peca_Fantasma
+from src.peca import Peca_Fantasma
 
 class Tabuleiro:
     def __init__(self, pos_x, pos_y):

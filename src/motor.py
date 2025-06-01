@@ -1,7 +1,7 @@
 import pygame
 import time
 import asyncio
-from jogo import Jogo
+from src.jogo import Jogo
 
 class Coracao():
 

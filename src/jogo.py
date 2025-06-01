@@ -1,13 +1,30 @@
 import pygame
-from tabuleiro import Tabuleiro
-from peca import Peca
-from caixa_selecao import Caixa_Selecao
+from src.tabuleiro import Tabuleiro
+from src.peca import Peca
+from src.caixa_selecao import Caixa_Selecao
+import threading
 
 class Jogo():
 
     def __init__(self):
         self.reset_partida()  # Inicializa o jogo com uma nova partida
         
+    def tocar(self, tipo, nome = None):
+        if tipo == "background":
+            if pygame.mixer.get_init() and pygame.mixer.music.get_busy():
+                pygame.mixer.music.stop()
+
+            def tocar_musica():
+                pygame.mixer.init()
+                pygame.mixer.music.load("audio/musica.mp3")
+                pygame.mixer.music.set_volume(0.3)  # Define o volume para 50%
+                pygame.mixer.music.play(-1)  # Loop infinito
+            self.musica_thread = threading.Thread(target=tocar_musica, daemon=True)
+            self.musica_thread.start()
+        elif tipo == "peca":
+            if pygame.mixer.get_init():
+                    pygame.mixer.Sound(f"audio/{nome}.mp3").play()
+
     def reset_partida(self):
         self.tabuleiro = Tabuleiro(50, 40)                        # Inicializa o tabuleiro com a posição (50, 40)
         self.caixa_selecao = Caixa_Selecao(700, 40, 192, 192*3)   # Inicializa a caixa de seleção
@@ -15,6 +32,8 @@ class Jogo():
         self.max_score = 100
         self.score = 0                                            # Reseta o score
         self.vitoria = False
+        self.tocar("background")                                 # Toca a música de fundo
+        
 
     def computar_pontos(self):
         """Ver todas as peças do tabuleiro e se for do tipo peca, soma os pontos."""
@@ -138,6 +157,8 @@ class Jogo():
 
                     if input_peca:
                         self.peca_selecionada = input_peca
+                        if input_peca.tipo != "cinza":
+                            self.tocar("peca", input_peca.tipo)
                     
                 if self.peca_selecionada:
                     coord_tabuleiro= self.tabuleiro.get_coord_tabuleiro(pos_x, pos_y)

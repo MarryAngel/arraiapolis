@@ -1,5 +1,5 @@
 import pygame
-from peca import Peca
+from src.peca import Peca
 import random
 
 class Caixa_Selecao:

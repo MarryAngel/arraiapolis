@@ -103,7 +103,7 @@ class Peca():
     def carregar_imagem(self):
         """Carrega a imagem da peça com base no tipo."""
         try:
-            self.image = pygame.image.load(f"../images/{self.formato}/{self.tipo}.png")
+            self.image = pygame.image.load(f"images/{self.formato}/{self.tipo}.png")
         except pygame.error as e:
             print(f"Erro ao carregar a imagem da peça {self.formato}/{self.tipo}.png: {e}")
             self.image = None
