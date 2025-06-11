@@ -18,7 +18,7 @@ class Jogo():
             def tocar_musica():
                 pygame.mixer.init()
                 pygame.mixer.music.load("audio/musica.mp3")
-                pygame.mixer.music.set_volume(0.05)  # Define o volume para 5%
+                pygame.mixer.music.set_volume(0.15)  # Define o volume para 5%
                 pygame.mixer.music.play(-1)  # Loop infinito
             self.musica_thread = threading.Thread(target=tocar_musica, daemon=True)
             self.musica_thread.start()
@@ -45,7 +45,7 @@ class Jogo():
         self.caixa_selecao = Caixa_Selecao(700, 40, 192, 192*3)   # Inicializa a caixa de seleção
         self.peca_selecionada = None
         self.max_score_easy = 90
-        self.max_score_hard = 180
+        self.max_score_hard = 150
         self.score = 0                                            # Reseta o score
         self.vitoria = False
         self.tocar("background")                                 # Toca a música de fundo
@@ -180,6 +180,22 @@ class Jogo():
         
         self.desenhar_hard(screen)  # Desenha o botão de dificuldade
 
+        # Botão de rotação abaixo do switch de dificuldade
+        rotacao_x = 920
+        rotacao_y = 220  # Abaixo do botão de dificuldade
+        rotacao_largura = 56
+        rotacao_altura = 56
+
+        # Desenha o quadrado laranja com bordas arredondadas
+        pygame.draw.rect(screen, (20, 170, 220), (rotacao_x, rotacao_y, rotacao_largura, rotacao_altura), border_radius=10)
+        pygame.draw.rect(screen, (0, 0, 0), (rotacao_x, rotacao_y, rotacao_largura, rotacao_altura), 2, border_radius=10)
+
+        # Adiciona o "R" no meio
+        fonte_r = pygame.font.Font(None, 36)
+        texto_r = fonte_r.render("R", True, (0, 0, 0))
+        texto_r_rect = texto_r.get_rect(center=(rotacao_x + rotacao_largura // 2, rotacao_y + rotacao_altura // 2))
+        screen.blit(texto_r, texto_r_rect)
+
         # desenhar a peça selecionada
         if self.peca_selecionada:
             pos_x = pygame.mouse.get_pos()[0] # Centraliza a peça no mouse
@@ -246,3 +262,9 @@ class Jogo():
                                 self.tocar("peca", "estalinho")
                             self.peca_selecionada = None
                             self.caixa_selecao.reset()
+                    else:
+                        # Verifica se o botão de rotação foi clicado
+                        if 920 <= pos_x <= 976 and 220 <= pos_y <= 276:
+                            if self.peca_selecionada:
+                                self.peca_selecionada.rotacionar()
+                                self.tocar("peca", "colocar")
