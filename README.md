@@ -1,5 +1,11 @@
 # 🔥🌽 Arraiápolis 🪗🐍
 
+![Status](https://img.shields.io/badge/status-finalizado-brightgreen)
+![Python](https://img.shields.io/badge/python-3.12-blue?logo=python&logoColor=white)
+![Pygame](https://img.shields.io/badge/made%20with-pygame-blue?logo=pygame&logoColor=white)
+![Itch.io](https://img.shields.io/badge/play%20on-itch.io-red?logo=itchdotio)
+
+
 ## 🎯 Evento: Game JamNina 2025
 
 Jogo desenvolvido durante a **Game JamNina 2025**, organizada pelo grupo de desenvolvedores de jogos da **Unicamp**, conhecido como **GAMUX**. 
@@ -82,6 +88,6 @@ python main.py
 
 Este jogo foi desenvolvido unicamente para fins educacionais e recreativos durante a **Game JamNina 2025**. 
 
-Distribuído sob a licença GNU General Public License (GPL).
+Distribuído sob a licença [GNU General Public License (GPL)](LICENSE).
 
 #### 🔗 Jogue online e confira outros projetos: [salocinrevenge.itch.io](https://salocinrevenge.itch.io/) 
