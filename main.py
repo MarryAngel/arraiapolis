@@ -1,5 +1,8 @@
+# Bibliotecas e Importações
 from src.motor import Coracao
 import asyncio
 
-game = Coracao()
-asyncio.run(game.run())
+# Inicialização do jogo
+if __name__ == "__main__":
+    game = Coracao()
+    asyncio.run(game.run())

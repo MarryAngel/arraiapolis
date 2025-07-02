@@ -1,3 +1,8 @@
+'''
+
+'''
+
+# Bibliotecas e Importações
 import pygame
 import time
 import asyncio
@@ -6,24 +11,31 @@ from src.jogo import Jogo
 class Coracao():
 
     def __init__(self) -> None:
+        ''' Inicializa o motor do jogo. '''
         pygame.init()
 
         # Definir as dimensões da janela
-        dimensoes = pygame.display.get_desktop_sizes()[0]
-        self.WINDOW_WIDTH = dimensoes[0] * 0.7
         self.WINDOW_WIDTH = 1000
-        self.WINDOW_HEIGHT = dimensoes[1] * 0.7
-        self.WINDOW_HEIGHT = 600+100
+        self.WINDOW_HEIGHT = 700
+        
+        # Configurações de FPS e timing
         self.FPS_PADRAO = 60.0
         self.UPDATE_CAP = 1.0/self.FPS_PADRAO
+        
+        # Instancia o objeto principal do jogo
         self.jogo = Jogo()
-        # Criar a janela
+        
+        # Cria a janela
         self.screen = pygame.display.set_mode((self.WINDOW_WIDTH, self.WINDOW_HEIGHT), pygame.RESIZABLE)
         pygame.display.set_caption("Arraiápolis") # titulo da janela
 
+    async def run(self) -> None:
+        '''
+        Método principal do motor do jogo, contendo o loop principal.
+        Este método é assíncrono para execução web.
+        '''
 
-    async def run(self):
-        self.running = True
+        self.running = True     #
         render = False
         firstTime = 0
         lastTime = time.time()  # retorna o tempo atual em segundos
@@ -31,8 +43,8 @@ class Coracao():
         unprocessedTime = 0
         frameTime = 0
         frames = 0
-        fps = 0
         debug = False
+        
         while self.running:
             tempo = {"ticks": 0, "render": 0, "sleep": 0}
             render = False
@@ -79,31 +91,30 @@ class Coracao():
                 
         self.dispose()
       
-    def tick(self): # metodo chamado a cada frame
+    def tick(self) -> None: 
+        ''' Método chamado a cada unidade de tempo para atualizar o jogo. '''
+        
         self.input()
         self.jogo.tick()
-        # mostra a coordenada do mouse
-        # print(pygame.mouse.get_pos())
 
-    def render(self, gc): # metodo chamado a cada frame
-        # Limpar a telaa
-        self.screen.fill((0,0,0))
+    def render(self, gc) -> None: 
+        ''' Método chamado a cada frame para renderizar o jogo. '''
+        
+        self.screen.fill((0,0,0))           # Limpar a tela
+        self.jogo.render(self.screen)       # Renderizar o mapa
+        pygame.display.flip()               # Atualizar a tela
 
-        # Renderizar o mapa
-        self.jogo.render(self.screen)
-
-        # Atualizar a tela
-        pygame.display.flip()
-
-    def input(self):
-        # Verificar eventos
+    def input(self) -> None:
+        ''' Método chamado toda vez que há uma entrada do usuário.'''
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
+            # Passar o evento para o jogo
             self.jogo.input(event)
 
-    def dispose(self):      # metodo chamado quando o jogo fecha
-            pass
-
-Coracao()
+    def dispose(self) -> None:   
+        ''' Método para destruir objetos não utilizados e liberar memória.'''
+        
+        pass
